@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+fun WoofTopAppBar(modifier: Modifier = Modifier) {
+
+}
+
+@Composable
 fun TipTimeScreen() {
     var amountInput by remember { mutableStateOf("") }
     var tipInput by remember { mutableStateOf("") }
@@ -57,6 +63,17 @@ fun TipTimeScreen() {
     val amount = amountInput.toDoubleOrNull() ?: 0.0
     val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
     val tip = calculateTip(amount, tipPercent, roundUp)
+    Scaffold(
+        topBar = { /* Add your TopAppBar here */ },
+        floatingActionButton = { /* Add your FloatingActionButton here */ },
+    ) { innerPadding ->
+        // Add the content of the Scaffold with padding
+        Text(
+            text = "Hello, Scaffold with padding!",
+            modifier = Modifier.padding(innerPadding),
+            style = MaterialTheme.typography.h6
+        )
+    }
 
     Column(
         modifier = Modifier.padding(32.dp),
@@ -118,8 +135,17 @@ fun EditNumberField(
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
         keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
+        keyboardActions = keyboardActions,
+        textStyle = MaterialTheme.typography.h1
     )
+    Card(modifier = Modifier.padding(8.dp), elevation = 4.dp) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .background(MaterialTheme.colors.surface)
+        ) {}
+    }
 }
 
 @Preview(showBackground = true)
@@ -129,6 +155,15 @@ fun DefaultPreview() {
         TipTimeScreen()
     }
 }
+
+@Preview
+@Composable
+fun DarkDefaultPreview() {
+    TipTimeTheme(darkTheme = true) {
+        TipTimeScreen()
+    }
+}
+
 
 @VisibleForTesting
 internal fun calculateTip(
@@ -153,7 +188,7 @@ fun RoundTheTipRow(
             .size(48.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = stringResource(R.string.round_up_tip))
+        Text(text = stringResource(R.string.round_up_tip), style = MaterialTheme.typography.h2)
         Switch(
             checked = roundUp,
             colors = SwitchDefaults.colors(
