@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.ui.unit.dp
@@ -48,11 +47,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun WoofTopAppBar(modifier: Modifier = Modifier) {
-
-}
-
-@Composable
 fun TipTimeScreen() {
     var amountInput by remember { mutableStateOf("") }
     var tipInput by remember { mutableStateOf("") }
@@ -69,7 +63,7 @@ fun TipTimeScreen() {
     ) { innerPadding ->
         // Add the content of the Scaffold with padding
         Text(
-            text = "Hello, Scaffold with padding!",
+            text = "",
             modifier = Modifier.padding(innerPadding),
             style = MaterialTheme.typography.h6
         )
@@ -77,14 +71,14 @@ fun TipTimeScreen() {
 
     Column(
         modifier = Modifier.padding(32.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text(
             text = stringResource(R.string.calculate_tip),
             fontSize = 24.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(8.dp))
         EditNumberField(
             label = R.string.bill_amount,
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -95,7 +89,11 @@ fun TipTimeScreen() {
                 onNext = { focusManager.moveFocus(FocusDirection.Down) }
             ),
             value = amountInput,
-            onValueChange = { amountInput = it }
+            onValueChange = {
+                if (it.isEmpty() || it.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
+                    amountInput = it  // Update the value only if it's a valid number
+                }
+            }
         )
         EditNumberField(
             label = R.string.how_was_the_service,
@@ -107,10 +105,13 @@ fun TipTimeScreen() {
                 onDone = { focusManager.clearFocus() }
             ),
             value = tipInput,
-            onValueChange = { tipInput = it }
+            onValueChange = {
+                if (it.isEmpty() || it.matches(Regex("^\\d*\\.?\\d{0,2}$"))) {
+                    tipInput = it  // Update the value only if it's a valid number
+                }
+            }
         )
         RoundTheTipRow(roundUp = roundUp, onRoundUpChanged = { roundUp = it })
-        Spacer(Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.tip_amount, tip),
             modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -138,14 +139,6 @@ fun EditNumberField(
         keyboardActions = keyboardActions,
         textStyle = MaterialTheme.typography.h1
     )
-    Card(modifier = Modifier.padding(8.dp), elevation = 4.dp) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .background(MaterialTheme.colors.surface)
-        ) {}
-    }
 }
 
 @Preview(showBackground = true)

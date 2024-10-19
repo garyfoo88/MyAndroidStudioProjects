@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SnapchatSplashscreen" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.SnapchatSplashscreen" parent="Base.Theme.SnapchatSplashscreen" />
+
+    <style name="Theme.App.Splashscreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">
+            @color/yellow
+        </item>
+        <item name="windowSplashScreenAnimatedIcon">
+            @drawable/sun
+        </item>
+        <item name="postSplashScreenTheme">
+            @style/Base.Theme.SnapchatSplashscreen
+        </item>
+    </style>
+</resources>
