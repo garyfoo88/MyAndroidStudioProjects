@@ -11,8 +11,7 @@ class LemonadeViewModel : ViewModel() {
     var currentStep by mutableStateOf(1)
         private set
 
-    var squeezeCount by mutableStateOf(0)
-        private set
+    private var squeezeCount by mutableStateOf(0)
 
     fun pickLemon() {
         currentStep = 2

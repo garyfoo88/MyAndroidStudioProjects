@@ -29,11 +29,14 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -42,12 +45,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.android.unscramble.R
 import com.example.android.unscramble.ui.theme.UnscrambleTheme
+import com.example.android.unscramble.viewmodel.GameViewModel
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 
 @Composable
-fun GameScreen(modifier: Modifier = Modifier) {
+fun GameScreen(modifier: Modifier = Modifier, viewModel: GameViewModel = viewModel()) {
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -77,11 +84,15 @@ fun GameScreen(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .weight(1f)
                     .padding(start = 8.dp),
-                onClick = { }
+                onClick = { },
+                enabled = !viewModel.isError && viewModel.text.isNotBlank()
             ) {
                 Text(stringResource(R.string.submit))
             }
         }
+        FinalScoreDialog(
+            onPlayAgain = {}
+        )
     }
 }
 
@@ -108,7 +119,7 @@ fun GameStatus(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun GameLayout(modifier: Modifier = Modifier) {
+fun GameLayout(modifier: Modifier = Modifier, viewModel: GameViewModel = viewModel()) {
     Column(
         verticalArrangement = Arrangement.spacedBy(24.dp),
 
@@ -124,12 +135,14 @@ fun GameLayout(modifier: Modifier = Modifier) {
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
         OutlinedTextField(
-            value = "",
+            value = viewModel.text,
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
-            onValueChange = { },
+            onValueChange = {
+                viewModel.onTextChange(it)
+            },
             label = { Text(stringResource(R.string.enter_your_word)) },
-            isError = false,
+            isError = viewModel.isError,
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done
             ),
@@ -137,6 +150,12 @@ fun GameLayout(modifier: Modifier = Modifier) {
                 onDone = { }
             ),
         )
+        if (viewModel.isError) {
+            Text(
+                text = "Please enter between 2 and 20 characters.",
+                color = MaterialTheme.colors.error
+            )
+        }
     }
 }
 
