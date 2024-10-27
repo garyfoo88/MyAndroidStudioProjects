@@ -64,6 +64,7 @@ private fun Highlights(
     }
 }
 
+//Singleton object
 private object HighlightDefaults {
     val defaultColors = HighlightColors(
         containerColor = Color.Unspecified,
