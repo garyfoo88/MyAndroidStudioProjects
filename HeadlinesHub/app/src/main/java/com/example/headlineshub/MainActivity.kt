@@ -3,7 +3,12 @@ package com.example.headlineshub
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.headlineshub.ui.screens.OnboardingScreen
 import com.example.headlineshub.ui.theme.HeadlinesHubTheme
 
 class MainActivity : ComponentActivity() {
@@ -11,7 +16,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
-            HeadlinesHubTheme {
+            HeadlinesHubTheme(
+                dynamicColor = false
+            ) {
+                Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                    OnboardingScreen()
+                }
             }
         }
     }
