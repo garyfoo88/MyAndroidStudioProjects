@@ -3,6 +3,7 @@ package com.example.headlineshub
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
@@ -12,15 +13,23 @@ import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.headlineshub.ui.screens.OnboardingScreen
 import com.example.headlineshub.ui.theme.HeadlinesHubTheme
+import com.example.headlineshub.viewmodel.MainViewModel
 import com.example.headlineshub.viewmodel.OnboardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        installSplashScreen()
+        installSplashScreen().apply {
+            setKeepOnScreenCondition(
+                condition = {
+                    viewModel.splashCondition.value
+                }
+            )
+        }
         setContent {
             HeadlinesHubTheme(
                 dynamicColor = false
