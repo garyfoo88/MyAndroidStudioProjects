@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.example.headlineshub.data.model.pages
 import com.example.headlineshub.ui.components.common.NewsButton
 import com.example.headlineshub.ui.components.common.NewsTextButton
+import com.example.headlineshub.ui.components.onboarding.OnboardingEvent
 import com.example.headlineshub.ui.components.onboarding.OnboardingPage
 import com.example.headlineshub.ui.components.onboarding.PagerIndicator
 import com.example.headlineshub.ui.theme.Dimensions
@@ -33,7 +34,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(
+    onEvent: (OnboardingEvent) -> Unit
+) {
     val isSystemInDarkMode = isSystemInDarkTheme()
     val systemUiColor = rememberSystemUiController()
     SideEffect {
@@ -97,7 +100,7 @@ fun OnboardingScreen() {
                     onClick = {
                         scope.launch {
                             if (pagerState.currentPage == 3) {
-                                //Navigate to the main screen and save a value in datastore preferences
+                                onEvent(OnboardingEvent.SaveAppEntry)
                             } else {
                                 pagerState.animateScrollToPage(
                                     page = pagerState.currentPage + 1
