@@ -103,4 +103,8 @@ dependencies {
 
     //Accompanist
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
+
+    //Paging 3
+    implementation("androidx.paging:paging-runtime:3.1.1")
+    implementation("androidx.paging:paging-compose:3.2.0-rc01")
 }
