@@ -19,4 +19,6 @@ sealed class Route(
     data object AppStartNavigation : Route(name = "appStartNavigation")
 
     data object NewsNavigation : Route(name = "newsNavigation")
+
+    data object NewsNavigatorScreen : Route(name = "newsNavigator")
 }

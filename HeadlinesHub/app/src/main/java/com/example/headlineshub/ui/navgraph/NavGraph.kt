@@ -27,7 +27,6 @@ fun NavGraph(startDestination: String) {
                 OnboardingScreen(onEvent = viewModel::onEvent)
             }
         }
-
         navigation(
             route = Route.NewsNavigation.name,
             startDestination = Route.HomeScreen.name
